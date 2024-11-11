@@ -2,6 +2,8 @@ package com.douglas.thriftstore.service;
 
 import com.douglas.thriftstore.model.User;
 import com.douglas.thriftstore.repository.UserRepository;
+import com.douglas.thriftstore.utils.StringValidation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +61,7 @@ public class UserService {
     // Find User by userid
     public User getUserByUserid(String userid) {
         try {
-            User user = userRepository.findByUserid(userid);
+            User user = findByUserid(userid);
             if (user == null) {
                 throw new Exception("User not found with userid: " + userid);
             }
@@ -72,7 +74,7 @@ public class UserService {
     
     public String authenticateUser(String userid, String password) {
         // Find user by their 'userid'
-        User user = userRepository.findByUserid(userid);
+        User user = findByUserid(userid);
 
         // Check if user exists
         if (user == null) {
@@ -89,7 +91,7 @@ public class UserService {
     
     public String deactivateUser(String userid) {
        
-            User user = userRepository.findByUserid(userid);
+            User user = findByUserid(userid);
             if (user == null) {
                 return "User not found!";
             }
@@ -107,6 +109,8 @@ public class UserService {
             existingUser.setPassword(user.getPassword());
             existingUser.setState(user.getState());
             existingUser.setAction(user.isAction());
+            existingUser.setAddress(user.getAddress());
+            existingUser.setNumber(user.getNumber());
             
             userRepository.save(existingUser);  // Save the updated user
             return "User updated successfully.";
@@ -121,6 +125,10 @@ public class UserService {
     
     public boolean useridExists(String userid) {
         return userRepository.findByUserid(userid) != null;
+    }
+    
+    public User findByUserid(String userid) {
+    	return userRepository.findByUserid(StringValidation.removeWhiteSpaces(userid));
     }
     
 }
