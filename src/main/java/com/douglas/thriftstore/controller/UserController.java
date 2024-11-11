@@ -2,6 +2,8 @@ package com.douglas.thriftstore.controller;
 
 import com.douglas.thriftstore.model.User;
 import com.douglas.thriftstore.service.UserService;
+import com.douglas.thriftstore.utils.StringValidation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -21,11 +23,11 @@ public class UserController {
     public ResponseEntity<String> saveOrUpdateUser(@RequestBody User user) {
         try {
         	
-        	 if (userService.emailExists(user.getEmail().trim())) {
+        	 if (userService.emailExists(StringValidation.removeWhiteSpaces(user.getEmail()))) {
         		 return ResponseEntity.ok("Email already exists. ");
              }
         	 
-        	 if (userService.useridExists(user.getUserid().trim())) {
+        	 if (userService.useridExists(StringValidation.removeWhiteSpaces(user.getUserid()))) {
         		 return ResponseEntity.ok("Userid already exists. ");
              }
         
@@ -82,7 +84,7 @@ public class UserController {
     @GetMapping("/userid/{userid}")
     public ResponseEntity<Object> getUserByUserid(@PathVariable String userid) {
         try {
-            User user = userService.getUserByUserid(userid.trim());
+            User user = userService.getUserByUserid(userid);
             if (user == null) {
                 return ResponseEntity.status(404).body("User not found with userid: " + userid);
             }

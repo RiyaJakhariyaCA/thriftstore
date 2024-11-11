@@ -21,16 +21,18 @@ public class ProductController {
     // Create a new product
     @PostMapping
     public ResponseEntity<?> uploadProduct(
-            @RequestParam("name") String name,
-            @RequestParam("price") double price,
-            @RequestParam("description") String description,
-            @RequestParam("file") MultipartFile file) {   
-    	try {
-    		Product product = new Product(name,price,description);
+    		@RequestParam("name") String name,@RequestParam("description") String description,
+    		@RequestParam("sellerId") String sellerId,@RequestParam("price") double price,
+    		@RequestParam("condition") int condition,@RequestParam("discount") int discount,
+    		@RequestParam("available") boolean available,
     		
-            Product createdProduct = productService.createProduct(product,file);
+            @RequestParam(value="files",required = false) MultipartFile[] files) {   
+    	try {
+    		Product product = new Product(name,price,description,condition,discount,sellerId,available);
+            Product createdProduct = productService.createProduct(product,files);
             return ResponseEntity.ok(createdProduct);
         } catch (Exception e) {
+        	e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             		.body("Error in creating orders: " + e.getMessage());
         }
@@ -60,16 +62,23 @@ public class ProductController {
     }
 
     // Update an existing product
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable long id, @RequestBody Product product) {
+    @PutMapping("/updateProduct/{id}")
+    public ResponseEntity<?> updateProduct(
+            @PathVariable Long id,
+            @RequestParam("name") String name,@RequestParam("description") String description,
+    		@RequestParam("sellerId") String sellerId,@RequestParam("price") double price,
+    		@RequestParam("condition") int condition,@RequestParam("discount") int discount,
+    		@RequestParam("available") boolean available,
+    		
+            @RequestParam(value="files",required = false) MultipartFile[] files) {
         try {
-            Product updatedProduct = productService.updateProduct(id, product);
-            return updatedProduct != null ? ResponseEntity.ok(updatedProduct)
-                    :   ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found with ID: " + id); 
+        	Product product = new Product(name,price,description,condition,discount,sellerId,available);
+            Product updatedProduct = productService.updateProduct(id, product, files);
+            return ResponseEntity.ok(updatedProduct);
         } catch (Exception e) {
-        	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                     .body("Error updating the order with ID: " + id + ", " + e.getMessage());
-
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error in updating product: " + e.getMessage());
         }
     }
 
@@ -78,7 +87,7 @@ public class ProductController {
     public ResponseEntity<?> deleteProduct(@PathVariable long id) {
         try {
             boolean isDeleted = productService.deleteProduct(id);
-            return isDeleted ? ResponseEntity.noContent().build() 
+            return isDeleted ? ResponseEntity.ok("Deleted Successfully") 
                     :  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found with ID: " + id); 
         } catch (Exception e) {
         	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -101,4 +110,5 @@ public class ProductController {
 
         }
     }
+
 }

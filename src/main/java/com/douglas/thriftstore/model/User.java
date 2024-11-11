@@ -1,6 +1,7 @@
 package com.douglas.thriftstore.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,32 +11,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="\"users\"")
 public class User 
 {
 	
-	public LocalDate getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(LocalDate modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public String getUserid() {
-		return userid;
-	}
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
@@ -49,29 +33,34 @@ public class User
 	@Column(name="userid")
 	private String userid;
 	
+	@Column(name="address")
+	private String address;
 	
+	@Column(name="number")
+	private long number;
 
-	 @Column(name="email", unique = true)
+	@Column(name="email", unique = true)
 	private String email;
 	
-	 @Column(name="modifiedDate")
-		private LocalDate modifiedDate;
+	@Column(name="modifiedAt")
+	private LocalDateTime modifiedAt;
 	 
-	 @Column(name="startDate")
-		private LocalDate startDate;
+	@Column(name="createdAt")
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime createdAt;
 		
-		// This method is called before persisting (creating) the entity
+	
 	    @PrePersist
 	    public void prePersist() {
-	        this.startDate = LocalDate.now(); 
-	        this.modifiedDate = LocalDate.now(); 
+	        this.createdAt = LocalDateTime.now(); 
+	        this.modifiedAt = LocalDateTime.now(); 
 	        
 	    }
 	    
 	    // This method is called before updating the entity
 	    @PreUpdate
 	    public void preUpdate() {
-	        this.modifiedDate = LocalDate.now(); 
+	        this.modifiedAt = LocalDateTime.now(); 
 	    }
 
 	
@@ -92,7 +81,15 @@ public class User
 		this.password = password;
 	}
 
-	
+
+	 public boolean isAction() {
+		return action;
+	}
+
+	public void setAction(boolean action) {
+		this.action = action;
+	}
+
 
 
 	public String getEmail() {
@@ -113,15 +110,7 @@ public class User
 		this.state = state;
 	}
 
-	public boolean isAction() {
-        return action;
-    }
-
-	public void setAction(boolean action) {
-		this.action = action;
-	}
-
-
+	
 
 	public User(String first_name, String last_name, String userid, String email,  String state, boolean action, String password) {
 		super();
@@ -167,5 +156,43 @@ public class User
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
+	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(long number) {
+		this.number = number;
+	}
+
+	public LocalDateTime getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(LocalDateTime modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
 
 }

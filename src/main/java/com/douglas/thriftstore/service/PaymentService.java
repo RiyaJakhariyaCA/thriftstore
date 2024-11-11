@@ -86,14 +86,14 @@ public class PaymentService {
         redirectUrls.setReturnUrl(successUrl);
         payment.setRedirectUrls(redirectUrls);
         
-        try {
-        	
-        	orderService.createOrderDetails(Userid,totalAmount,currency,productid);
-            Payment createdPayment = payment.create(apiContext);
-            return createdPayment;
-        } catch (PayPalRESTException e) {
-            e.printStackTrace();
-        }
+//        try {
+//        	
+//        	orderService.createOrderDetails(Userid,totalAmount,currency,productid);
+//            Payment createdPayment = payment.create(apiContext);
+//            return createdPayment;
+//        } catch (PayPalRESTException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 
@@ -111,7 +111,7 @@ public class PaymentService {
        // String transactionId = executedPayment.getTransactions().get(0).getRelatedResources().get(0).getSale().getId();
 
         // Update order and transaction with the transactionId
-        orderService.updateOrderStatus(paymentId, payerId, "123", "COMPLETED",userid);
+        //orderService.updateOrderStatus(paymentId, payerId, "123", "COMPLETED",userid);
         
         return payment;
     }
