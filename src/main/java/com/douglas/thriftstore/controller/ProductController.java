@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin("http://localhost:8080/")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
