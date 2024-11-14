@@ -1,5 +1,6 @@
 package com.douglas.thriftstore.service;
 
+import com.douglas.thriftstore.model.NormalResponse;
 import com.douglas.thriftstore.model.User;
 import com.douglas.thriftstore.repository.UserRepository;
 import com.douglas.thriftstore.utils.StringValidation;
@@ -17,13 +18,13 @@ public class UserService {
     private UserRepository userRepository;
 
     // Create or Update User
-    public String saveUser(User user) {
+    public NormalResponse saveUser(User user) {
         try {
             userRepository.save(user);
-            return "User saved successfully";
+            return new NormalResponse("User saved successfully");
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error while saving user: " + e.getMessage();
+            return new NormalResponse("Error while saving user: ");
         }
     }
 
@@ -44,17 +45,17 @@ public class UserService {
     }
 
     // Delete User by ID
-    public String deleteUserById(long id) {
+    public NormalResponse deleteUserById(long id) {
         try {
             if (userRepository.existsById(id)) {
                 userRepository.deleteById(id);
-                return "User deleted successfully";
+                return new NormalResponse("User deleted successfully");
             } else {
-                return "User not found with ID: " + id;
+                return new NormalResponse("User not found with ID: " + id);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error while deleting user: " + e.getMessage();
+            return new NormalResponse("Error while deleting user: " + e.getMessage());
         }
     }
 
@@ -72,35 +73,35 @@ public class UserService {
         }
     }
     
-    public String authenticateUser(String userid, String password) {
+    public NormalResponse authenticateUser(String userid, String password) {
         // Find user by their 'userid'
         User user = findByUserid(userid);
 
         // Check if user exists
         if (user == null) {
-            return "User not found!";
+            return new NormalResponse("User not found!");
         }
 
         // Compare the password with the stored password
         if (password.equals(user.getPassword())) {
-            return "Authentication successful!";
+            return new NormalResponse("Authentication successful!");
         } else {
-            return "Invalid password!";
+            return new NormalResponse("Invalid password!");
         }
     }
     
-    public String deactivateUser(String userid) {
+    public NormalResponse deactivateUser(String userid) {
        
             User user = findByUserid(userid);
             if (user == null) {
-                return "User not found!";
+                return new NormalResponse("User not found!");
             }
             user.setAction(false);  
             userRepository.save(user);
-            return "User deactivated successfully!";
+            return new NormalResponse("User deactivated successfully!");
     }
     
-    public String updateUser(long id, User user) {
+    public NormalResponse updateUser(long id, User user) {
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
             existingUser.setFirst_name(user.getFirst_name());
@@ -113,9 +114,9 @@ public class UserService {
             existingUser.setNumber(user.getNumber());
             
             userRepository.save(existingUser);  // Save the updated user
-            return "User updated successfully.";
+            return new NormalResponse("User updated successfully.");
         } else {
-            return "User not found.";
+            return new NormalResponse("User not found.");
         }
     }
     

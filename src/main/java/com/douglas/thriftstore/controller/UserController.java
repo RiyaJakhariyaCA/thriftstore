@@ -21,7 +21,7 @@ public class UserController {
 
     // Create or Update User
     @PostMapping("/save")
-    public ResponseEntity<String> saveOrUpdateUser(@RequestBody User user) {
+    public ResponseEntity<Object> saveOrUpdateUser(@RequestBody User user) {
         try {
         	
         	 if (userService.emailExists(StringValidation.removeWhiteSpaces(user.getEmail()))) {
