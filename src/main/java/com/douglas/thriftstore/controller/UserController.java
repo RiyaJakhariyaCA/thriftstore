@@ -1,5 +1,6 @@
 package com.douglas.thriftstore.controller;
 
+import com.douglas.thriftstore.model.NormalResponse;
 import com.douglas.thriftstore.model.User;
 import com.douglas.thriftstore.service.UserService;
 import com.douglas.thriftstore.utils.StringValidation;
@@ -71,9 +72,9 @@ public class UserController {
 
     // Delete User by ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable long id) {
+    public ResponseEntity<Object> deleteUserById(@PathVariable long id) {
         try {
-            String response = userService.deleteUserById(id);
+        	NormalResponse response = userService.deleteUserById(id);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,29 +98,29 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public String login(@RequestParam String userid, @RequestParam String password) {
+    public ResponseEntity<Object> login(@RequestParam String userid, @RequestParam String password) {
         try {
-            return userService.authenticateUser(userid, password);
+            return ResponseEntity.ok(userService.authenticateUser(userid, password));
         } catch (Exception e) {
-            return "Error during authentication: " + e.getMessage();
+            return ResponseEntity.status(500).body("Error during authentication: " + e.getMessage());
         }
     }
     
     @PutMapping("/deactivate")
-    public String deactivateUser(@RequestParam String userid) {
+    public ResponseEntity<Object> deactivateUser(@RequestParam String userid) {
         try {
-            return userService.deactivateUser(userid);
+            return ResponseEntity.ok(userService.deactivateUser(userid));
         } catch (Exception e) {
-            return "Error deactivating user: " + e.getMessage();
+            return ResponseEntity.status(500).body("Error deactivating user: " + e.getMessage());
         }
     }
     
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable long id, @RequestBody User user) {
+    public ResponseEntity<Object> updateUser(@PathVariable long id, @RequestBody User user) {
         try {
         
         	
-            String response = userService.updateUser(id, user);
+            NormalResponse response = userService.updateUser(id, user);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
