@@ -2,6 +2,7 @@ package com.douglas.thriftstore.controller;
 
 import com.douglas.thriftstore.model.NormalResponse;
 import com.douglas.thriftstore.model.User;
+import com.douglas.thriftstore.model.UserLoginRequest;
 import com.douglas.thriftstore.service.UserService;
 import com.douglas.thriftstore.utils.StringValidation;
 
@@ -98,10 +99,11 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestParam String userid, @RequestParam String password) {
+    public ResponseEntity<Object> login(@RequestBody UserLoginRequest user) {
         try {
-            return ResponseEntity.ok(userService.authenticateUser(userid, password));
+            return ResponseEntity.ok(userService.authenticateUser(user.username, user.password));
         } catch (Exception e) {
+        	e.printStackTrace();
             return ResponseEntity.status(500).body("Error during authentication: " + e.getMessage());
         }
     }
