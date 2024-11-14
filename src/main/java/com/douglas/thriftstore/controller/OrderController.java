@@ -28,7 +28,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/createorder")
-    public ResponseEntity<?> createOrder(@RequestParam("userid") String userid, @RequestParam("amount") Double amount,@RequestParam("productid") Long productid) {
+    public ResponseEntity<Object> createOrder(@RequestParam("userid") String userid, @RequestParam("amount") Double amount,@RequestParam("productid") Long productid) {
         try {
             return ResponseEntity.ok(orderservice.createOrderDetails(userid, amount, productid));
         }catch(Exception e) {
@@ -37,7 +37,7 @@ public class OrderController {
         }
     }
 	
-	 // Get All Users
+	 // Get All Orders
     @GetMapping("/all")
     public ResponseEntity<Object> getAllorders() {
         try {
@@ -52,7 +52,7 @@ public class OrderController {
         }
     }
     
-    // Get User by ID
+    // Get Orders by buyer ID
     @GetMapping("/buyer/{userid}")
     public ResponseEntity<Object> getUserOrderHistory(@PathVariable String userid) {
         try {
@@ -67,7 +67,7 @@ public class OrderController {
         }
     }
     
- // Get User by ID
+ // Get Get Orders by seller ID
     @GetMapping("/seller/{userid}")
     public ResponseEntity<Object> getSellerOrderHistory(@PathVariable String userid) {
         try {
