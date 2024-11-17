@@ -84,13 +84,13 @@ public class OrderService {
 //    }
     
     // Method to create an order
-    public Orders createOrderDetails(String userid, Double amount,Long productid) {
+    public Orders createOrderDetails(String userid,Long productid) {
     	
     	Optional<Product> product = productRepository.findById(productid);
         // Create and save order in the database
     	Orders order = new Orders();
         order.setUserId(userid);
-        order.setAmount(amount);
+        order.setAmount(1);
         order.setProductId(productid);
         order.setSellerId(product.get().getSellerId());
         order.setStatus("SUCCESSFUL");  

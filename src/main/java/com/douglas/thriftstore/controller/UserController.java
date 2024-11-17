@@ -1,10 +1,11 @@
 package com.douglas.thriftstore.controller;
 
-import com.douglas.thriftstore.model.NormalResponse;
 import com.douglas.thriftstore.model.User;
-import com.douglas.thriftstore.model.UserLoginRequest;
 import com.douglas.thriftstore.service.UserService;
 import com.douglas.thriftstore.utils.StringValidation;
+
+import co.douglas.thriftstore.dto.NormalResponse;
+import co.douglas.thriftstore.dto.UserLoginRequestDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -99,7 +100,7 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserLoginRequest user) {
+    public ResponseEntity<Object> login(@RequestBody UserLoginRequestDTO user) {
         try {
             return ResponseEntity.ok(userService.authenticateUser(user.username, user.password));
         } catch (Exception e) {
