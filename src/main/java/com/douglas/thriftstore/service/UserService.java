@@ -1,9 +1,10 @@
 package com.douglas.thriftstore.service;
 
-import com.douglas.thriftstore.model.NormalResponse;
 import com.douglas.thriftstore.model.User;
 import com.douglas.thriftstore.repository.UserRepository;
 import com.douglas.thriftstore.utils.StringValidation;
+
+import co.douglas.thriftstore.dto.NormalResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

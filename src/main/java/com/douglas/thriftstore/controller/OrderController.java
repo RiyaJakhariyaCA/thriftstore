@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douglas.thriftstore.model.Orders;
 import com.douglas.thriftstore.service.OrderService;
+
+import co.douglas.thriftstore.dto.CreateOrderRequestDTO;
 
 
 @CrossOrigin("http://localhost:8080/")
@@ -28,9 +30,10 @@ public class OrderController {
 	
 	
 	@PostMapping("/createorder")
-    public ResponseEntity<Object> createOrder(@RequestParam("userid") String userid, @RequestParam("amount") Double amount,@RequestParam("productid") Long productid) {
+    public ResponseEntity<Object> createOrder(@RequestBody CreateOrderRequestDTO order) {
         try {
-            return ResponseEntity.ok(orderservice.createOrderDetails(userid, amount, productid));
+        	
+            return ResponseEntity.ok(orderservice.createOrderDetails(order.buyerId, order.productId));
         }catch(Exception e) {
         	e.printStackTrace();
         	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating payment: " + e.getMessage());
@@ -79,7 +82,7 @@ public class OrderController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error occurred while fetching order: " + e.getMessage());
-        }
-    }
+		}
+	}
 
 }

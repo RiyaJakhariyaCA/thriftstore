@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils
 {
-	 private static  String uploadDirectory = "E:/Images/";
+	 private static  String uploadDirectory = "E:/Images/"; // /Users/macos/code/testupload for mac
 	 
 	public static void deleteExistingImages(List<String> filePaths) {
 		try {

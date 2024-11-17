@@ -1,4 +1,4 @@
-package com.douglas.thriftstore.model;
+package co.douglas.thriftstore.dto;
 
 public class NormalResponse {
 	
