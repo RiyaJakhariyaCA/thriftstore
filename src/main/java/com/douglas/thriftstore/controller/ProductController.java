@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -30,7 +30,8 @@ public class ProductController {
             @RequestParam(value="files",required = false) MultipartFile[] files) {   
     	try {
     		Product product = new Product(name,price,description,condition,discount,sellerId,available);
-            Product createdProduct = productService.createProduct(product,files);
+    		System.out.println(files);
+            Product createdProduct = productService.createProduct(product,files);            
             return ResponseEntity.ok(createdProduct);
         } catch (Exception e) {
         	e.printStackTrace();
@@ -61,6 +62,19 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving the order with ID: " + id + ", " + e.getMessage()); 
         }
     }
+    
+    // Get product by seller ID
+    @GetMapping("/seller/{id}")
+    public ResponseEntity<?> getProductBySellerId(@PathVariable String id) {
+        try {
+            List<Product> products = productService.getProductBySellerId(id);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving the order with ID: " + id + ", " + e.getMessage()); 
+        }
+    }
+    
+    
 
     // Update an existing product
     @PutMapping("/updateProduct/{id}")

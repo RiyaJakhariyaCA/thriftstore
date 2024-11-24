@@ -20,7 +20,7 @@ import com.douglas.thriftstore.service.OrderService;
 import co.douglas.thriftstore.dto.CreateOrderRequestDTO;
 
 
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
