@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:8080/")
+@CrossOrigin()
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -99,6 +99,7 @@ public class UserController {
         }
     }
     
+    @CrossOrigin()
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UserLoginRequestDTO user) {
         try {

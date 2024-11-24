@@ -8,4 +8,5 @@ import com.douglas.thriftstore.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	 List<Product> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String nameKeyword, String descriptionKeyword);
+	 List<Product> findBySellerId(String id);
 }

@@ -55,6 +55,12 @@ public class ProductService {
             return productRepository.findById(id);
        
     }
+    
+    public List<Product> getProductBySellerId(String id) {
+        
+        return productRepository.findBySellerId(id);
+   
+}
 
     // Get all products
     public List<Product> getAllProducts() {
